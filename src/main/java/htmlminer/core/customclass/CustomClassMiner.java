@@ -3,14 +3,11 @@
  */
 package htmlminer.core.customclass;
 
-import htmlminer.core.customclass.dummy.MyDataFromPage;
 import htmlminer.core.customclass.mapping.CustomClassMapping;
-import htmlminer.core.customclass.mapping.CustomClassMapperManager;
 import htmlminer.core.customclass.mapping.Entry;
 import htmlminer.core.customclass.mapping.EntrySet;
 import htmlminer.core.customclass.parser.AbstractParser;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -20,8 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Fetches only data that are declared in XML (or mapping class) configuration file. In XML configuration you must
- * declare what data are fetched to. The miner will fetch that data and parse that fetched data to user's object.
+ * Takes the mapping class and URL, the result is filled custom class.
  * 
  * @author Ondrej Kvasnovsky
  */
@@ -42,8 +38,10 @@ public class CustomClassMiner {
    }
 
    /**
-    * @param url
-    * @param charset
+    * Starts parsing process.
+    * 
+    * @param url URL address
+    * @param charset charset
     * @throws IOException
     * @throws IllegalArgumentException
     * @throws SecurityException
