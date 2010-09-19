@@ -1,0 +1,27 @@
+<user-class-mapping name="qiiip.htmlminer.core.customclass.dummy.MyDataFromPage">
+  <entry-set parser="qiiip.htmlminer.core.customclass.parser.TextParser">
+    <mapping>
+      <entry>
+        <property>title</property>
+        <search-criteria>
+          <html-path>html head title</html-path>
+          <regex>.*</regex>
+          <attributes/>
+        </search-criteria>
+      </entry>
+      <entry>
+        <property>bgtextDiv</property>
+        <search-criteria>
+          <html-path>html body div div div a</html-path>
+          <regex>.*</regex>
+          <attributes>
+            <attribute>
+              <name>href</name>
+              <regex>/index</regex>
+            </attribute>
+          </attributes>
+        </search-criteria>
+      </entry>
+    </mapping>
+  </entry-set>
+</user-class-mapping>
