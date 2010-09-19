@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML.Tag;
 
-
 /**
  * Special parser to get text from HTML tags (&lttitle>Text that will be taken...&lt/title>).
  * 
@@ -30,9 +29,9 @@ public class TextParser extends AbstractParser {
    private Entry foundEntry;
 
    /**
-    * Constructor.
+    * Creates new parser.
     * 
-    * @param url url
+    * @param url URL address
     * @param charset char set
     * @param searchCriterias list of search criterias
     */
@@ -57,7 +56,7 @@ public class TextParser extends AbstractParser {
     * (non-Javadoc)
     * 
     * @see javax.swing.text.html.HTMLEditorKit.ParserCallback#handleStartTag(javax.swing.text.html.HTML.Tag,
-    *      javax.swing.text.MutableAttributeSet, int)
+    * javax.swing.text.MutableAttributeSet, int)
     */
    @Override
    public void handleStartTag(final Tag tag, final MutableAttributeSet attributeSet, final int arg2) {
