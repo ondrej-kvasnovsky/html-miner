@@ -10,10 +10,10 @@ import htmlminer.core.attributes.parser.HtmlAttributesParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Provides operations on fetched attributes. Attributes are fetched from HTML page.
@@ -28,8 +28,8 @@ import java.util.List;
  * &ltp></br>
  * &ltbody></br>
  * &lthtml></br>
- * </code></br>
- * The follwing code will search link to image (http://www.qiiip.org/htmlminer/public/images/linkimage.png).<br/>
+ * </code></br> The follwing code will search link to image
+ * (http://www.qiiip.org/htmlminer/public/images/linkimage.png).<br/>
  * <code>
  * HtmlAttributesCore attibutesCore = new HtmlAttributesCore(new URL("http://www.qiiip.org/htmlminer/"));</br>
  * String foundString = HtmlAttributesMiner.findString("http://.+\\." + png + ".*");
@@ -50,9 +50,23 @@ public final class HtmlAttributesCore {
    private HtmlModel<List<String>> htmlModel;
 
    /**
-    * Constructor.
+    * Constructor. Default encoding is UTF-8.
     * 
-    * @param urlAddress
+    * @param urlAddress URL address
+    * @throws MalformedURLException when address is not valid
+    */
+   public HtmlAttributesCore(final String urlAddress) throws MalformedURLException {
+      if (urlAddress == null) {
+         throw new IllegalArgumentException("URL address can't be null.");
+      }
+      final String charset = "UTF-8";
+      this.abstractParser = new HtmlAttributesParser(new URL(urlAddress), charset);
+   }
+
+   /**
+    * Constructor. Default encoding is UTF-8.
+    * 
+    * @param urlAddress url address
     */
    public HtmlAttributesCore(final URL urlAddress) {
       if (urlAddress == null) {
@@ -207,7 +221,8 @@ public final class HtmlAttributesCore {
     * @throws IOException can be thrown when HTML page is fetching
     * @throws ItemNotFoundException when item is not found
     */
-   public List<File> findFiles(final String protocol, final String fileExtension) throws ItemNotFoundException, IOException {
+   public List<File> findFiles(final String protocol, final String fileExtension) throws ItemNotFoundException,
+         IOException {
       // try to find strings
       final List<String> foundPaths = findStrings(protocol + "://.+\\." + fileExtension + ".*");
       // when are found, create new files
@@ -231,7 +246,8 @@ public final class HtmlAttributesCore {
     * @throws IOException can be thrown when HTML page is fetching
     * @throws ItemNotFoundException when item is not found
     */
-   public File findFile(final String protocol, final String fileExtension, final int position) throws ItemNotFoundException, IOException {
+   public File findFile(final String protocol, final String fileExtension, final int position)
+         throws ItemNotFoundException, IOException {
       // try to find strings
       final String foundPath = findString(protocol + "://.+\\." + fileExtension + ".*", position);
       // when are found, create new files
