@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 import htmlminer.core.customclass.dummy.MyDataFromPage;
 import htmlminer.core.customclass.mapping.Attribute;
-import htmlminer.core.customclass.mapping.CustomClassMapper;
+import htmlminer.core.customclass.mapping.CustomClassMapping;
 import htmlminer.core.customclass.mapping.CustomClassMapperManager;
 import htmlminer.core.customclass.mapping.Entry;
 import htmlminer.core.customclass.mapping.EntrySet;
@@ -42,13 +42,13 @@ public class ConfigManagerTest {
    public final void testLoadConfig() throws IOException {
       final String file = getClass().getResource("TestConfig.xml").getFile();
       CustomClassMapperManager customClassMapperManager = new CustomClassMapperManager(new File(file));
-      CustomClassMapper customClassMapper = customClassMapperManager.loadConfig();
+      CustomClassMapping customClassMapper = customClassMapperManager.loadConfig();
       assertNotNull(customClassMapper);
    }
 
    /**
     * Test method for
-    * {@link htmlminer.core.customclass.mapping.CustomClassMapperManager#saveConfig(htmlminer.core.customclass.mapping.CustomClassMapper, java.io.File)}
+    * {@link htmlminer.core.customclass.mapping.CustomClassMapperManager#saveConfig(htmlminer.core.customclass.mapping.CustomClassMapping, java.io.File)}
     * .
     * 
     * @throws IOException
@@ -61,7 +61,7 @@ public class ConfigManagerTest {
          NoSuchFieldException {
       final String file = getClass().getResource("TestConfig.xml").getFile();
       CustomClassMapperManager customClassMapperManager = new CustomClassMapperManager(new File(file));
-      CustomClassMapper customClassMapper = new CustomClassMapper();
+      CustomClassMapping customClassMapper = new CustomClassMapping();
       customClassMapper.setUserClass(MyDataFromPage.class);
       // entry set 1
       EntrySet entrySet1 = new EntrySet(TextParser.class);

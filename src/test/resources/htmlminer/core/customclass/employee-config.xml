@@ -1,0 +1,19 @@
+<user-class-mapping name="htmlminer.core.customclass.Employee">
+	<entry-set parser="htmlminer.core.customclass.parser.TextParser">
+		<mapping>
+			<entry>
+				<property>lastName</property>
+				<search-criteria>
+					<html-path>html body div</html-path>
+					<regex>.*</regex>
+					<attributes>
+						<attribute>
+							<name>id</name>
+							<regex>surname</regex>
+						</attribute>
+					</attributes>
+				</search-criteria>
+			</entry>
+		</mapping>
+	</entry-set>
+</user-class-mapping>
