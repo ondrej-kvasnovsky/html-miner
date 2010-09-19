@@ -8,11 +8,11 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * In this class is mapped what data (via a search criteria) is fetched to (user's class).
+ * In this class is mapped what data (via a search criteria) is fetched to custom class.
  * 
  * @author Ondrej Kvasnovsky
  */
-public final class CustomClassMapper {
+public final class CustomClassMapping {
 
    /**
     * clazz - user's class

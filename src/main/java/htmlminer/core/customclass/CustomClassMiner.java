@@ -4,7 +4,7 @@
 package htmlminer.core.customclass;
 
 import htmlminer.core.customclass.dummy.MyDataFromPage;
-import htmlminer.core.customclass.mapping.CustomClassMapper;
+import htmlminer.core.customclass.mapping.CustomClassMapping;
 import htmlminer.core.customclass.mapping.CustomClassMapperManager;
 import htmlminer.core.customclass.mapping.Entry;
 import htmlminer.core.customclass.mapping.EntrySet;
@@ -27,33 +27,34 @@ import java.util.List;
  */
 public class CustomClassMiner {
 
-   public static void main(String... args) throws IOException, InstantiationException, IllegalAccessException,
-         SecurityException, NoSuchFieldException, IllegalArgumentException, InvocationTargetException,
-         NoSuchMethodException {
-      CustomClassMapperManager customClassMapperManager = new CustomClassMapperManager(new File(
-            "test/qiiip/htmlminer/drivers/objstruct/TestConfig.xml"));
-      CustomClassMapper customClassMapper = customClassMapperManager.loadConfig();
-      CustomClassMiner core = new CustomClassMiner(customClassMapper);
-      MyDataFromPage object = (MyDataFromPage) core.getObject(new URL("http://qiiip.org/"), "UTF-8");
-      System.out.println("Title: " + object.getTitle());
-      System.out.println("BgtextDiv: " + object.getBgtextDiv());
-   }
+   /**
+    * mapping of custom class
+    */
+   private final CustomClassMapping mapping;
 
    /**
-    * mapping
+    * Creates new miner.
+    * 
+    * @param mapping of custom class
     */
-   private final CustomClassMapper mapping;
-
-   /**
-    * @param mapping
-    */
-   public CustomClassMiner(final CustomClassMapper mapping) {
+   public CustomClassMiner(final CustomClassMapping mapping) {
       this.mapping = mapping;
    }
 
-   private void compile(final URL url, final String charset) throws IOException, IllegalArgumentException,
-         SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException,
-         NoSuchMethodException {
+   /**
+    * @param url
+    * @param charset
+    * @throws IOException
+    * @throws IllegalArgumentException
+    * @throws SecurityException
+    * @throws InstantiationException
+    * @throws IllegalAccessException
+    * @throws InvocationTargetException
+    * @throws NoSuchMethodException
+    */
+   private void compile(final URL url, final String charset) throws IOException, SecurityException,
+         NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException,
+         InvocationTargetException {
       Iterator<EntrySet> entrySetIterator = this.mapping.iteratorEntrySet();
       // go though entry set and run parsers
       while (entrySetIterator.hasNext()) {
@@ -67,33 +68,62 @@ public class CustomClassMiner {
       }
    }
 
-   public Object getObject(final URL url, final String charset) throws InstantiationException, IllegalAccessException,
-         SecurityException, NoSuchFieldException, IOException, IllegalArgumentException, InvocationTargetException,
-         NoSuchMethodException {
+   public Object getObject(final URL url, final String charset) throws CustomClassProcessingException {
       // get results
-      compile(url, charset);
-      //
-      Class usersClass = this.mapping.getUserClass();
+      try {
+         compile(url, charset);
+      } catch (SecurityException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (IllegalArgumentException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (NoSuchMethodException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (InstantiationException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (IllegalAccessException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (InvocationTargetException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (IOException e) {
+         throw new CustomClassProcessingException(e);
+      }
       // create new instance of user's class
-      Object instance = usersClass.newInstance();
-      Iterator<EntrySet> entrySetIterator = this.mapping.iteratorEntrySet();
-      // go though entry set and run parsers
-      while (entrySetIterator.hasNext()) {
-         EntrySet entrySet = entrySetIterator.next();
-         // get search criteria
-         List<Entry> entryIterator = entrySet.iterator();
-         for (Entry entry : entryIterator) {
+      Object instance = null;
+      try {
+         // get custom class
+         Class usersClass = this.mapping.getUserClass();
+         instance = usersClass.newInstance();
+         Iterator<EntrySet> entrySetIterator = this.mapping.iteratorEntrySet();
+         // go though entry set and run parsers
+         while (entrySetIterator.hasNext()) {
+            EntrySet entrySet = entrySetIterator.next();
             // get search criteria
-            final String field = entry.getProperty();
-            // parse name and make first letter upper case
-            final String firstLetter = (field.substring(0, 1).toUpperCase());
-            final String anotherLetters = (field.substring(1, field.length()));
-            // get setter method
-            Method method = usersClass.getMethod("set" + (firstLetter + anotherLetters), String.class);
-            method.setAccessible(true);
-            // call setter
-            method.invoke(instance, entry.getResult());
+            List<Entry> entryIterator = entrySet.iterator();
+            for (Entry entry : entryIterator) {
+               // get search criteria
+               final String field = entry.getProperty();
+               // parse name and make first letter upper case
+               final String firstLetter = (field.substring(0, 1).toUpperCase());
+               final String anotherLetters = (field.substring(1, field.length()));
+               // get setter method
+               Method method = usersClass.getMethod("set" + (firstLetter + anotherLetters), String.class);
+               method.setAccessible(true);
+               // call setter
+               method.invoke(instance, entry.getResult());
+            }
          }
+      } catch (InstantiationException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (IllegalAccessException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (SecurityException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (NoSuchMethodException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (IllegalArgumentException e) {
+         throw new CustomClassProcessingException(e);
+      } catch (InvocationTargetException e) {
+         throw new CustomClassProcessingException(e);
       }
       return instance;
    }

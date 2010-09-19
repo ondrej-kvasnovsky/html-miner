@@ -53,14 +53,21 @@ public final class HtmlAttributesMiner {
     * Constructor. Default encoding is UTF-8.
     * 
     * @param urlAddress URL address
-    * @throws MalformedURLException when address is not valid
+    * @throws MalformedURLException when a malformed URL has occurred
     */
    public HtmlAttributesMiner(final String urlAddress) throws MalformedURLException {
-      if (urlAddress == null) {
-         throw new IllegalArgumentException("URL address can't be null.");
-      }
-      final String charset = "UTF-8";
-      this.abstractParser = new HtmlAttributesParser(new URL(urlAddress), charset);
+      this(new URL(urlAddress), "UTF-8");
+   }
+
+   /**
+    * Constructor.
+    * 
+    * @param urlAddress URL address
+    * @param charset char-set
+    * @throws MalformedURLException when a malformed URL has occurred
+    */
+   public HtmlAttributesMiner(final String urlAddress, final String charset) throws MalformedURLException {
+      this(new URL(urlAddress), charset);
    }
 
    /**
@@ -69,11 +76,7 @@ public final class HtmlAttributesMiner {
     * @param urlAddress url address
     */
    public HtmlAttributesMiner(final URL urlAddress) {
-      if (urlAddress == null) {
-         throw new IllegalArgumentException("URL address can't be null.");
-      }
-      final String charset = "UTF-8";
-      this.abstractParser = new HtmlAttributesParser(urlAddress, charset);
+      this(urlAddress, "UTF-8");
    }
 
    /**
@@ -93,103 +96,6 @@ public final class HtmlAttributesMiner {
    }
 
    /**
-    * Find a string according to regular expression.
-    * 
-    * @param regex regular expression
-    * @return found string
-    * @throws ItemNotFoundException is thrown when item is not found
-    * @throws IOException can be thrown when HTML page is fetching
-    */
-   public String findString(final String regex) throws ItemNotFoundException, IOException {
-      if (regex == null || "".equals(regex)) {
-         throw new IllegalArgumentException("Regex can't be empty.");
-      }
-      String ret = null;
-      if (htmlModel == null) {
-         this.abstractParser.start();
-         htmlModel = this.abstractParser.getModel();
-      }
-      List<String> list = htmlModel.getData();
-      for (String string : list) {
-         if (string.matches(regex)) {
-            ret = string;
-            break;
-         }
-      }
-      if (ret == null) {
-         throw new ItemNotFoundException();
-      }
-      return ret;
-   }
-
-   /**
-    * Find all strings according to regular expression.
-    * 
-    * @param regex regular expression
-    * @return collection of found strings
-    * @throws ItemNotFoundException is thrown when item is not found
-    * @throws IOException can be thrown when HTML page is fetching
-    */
-   public List<String> findStrings(final String regex) throws ItemNotFoundException, IOException {
-      if (regex == null || "".equals(regex)) {
-         throw new IllegalArgumentException("Regex can't be empty.");
-      }
-      List<String> ret = new ArrayList<String>();
-      if (htmlModel == null) {
-         this.abstractParser.start();
-         htmlModel = this.abstractParser.getModel();
-      }
-      List<String> list = htmlModel.getData();
-      for (String string : list) {
-         if (string.matches(regex)) {
-            ret.add(string);
-         }
-      }
-      if (ret.isEmpty()) {
-         throw new ItemNotFoundException();
-      }
-      return ret;
-   }
-
-   /**
-    * Fetch item according to regular expression and and item will be on given position.
-    * 
-    * @param regex regular expression
-    * @param position start from number zero. If you want to fetch fist item, you have to pass to this method number 0.
-    * @return a found item (represented by String)
-    * @throws ItemNotFoundException is thrown when item is not found
-    * @throws IOException can be thrown when HTML page is fetching
-    */
-   public String findString(final String regex, final int position) throws ItemNotFoundException, IOException {
-      if (regex == null || "".equals(regex)) {
-         throw new IllegalArgumentException("Regex can't be empty.");
-      }
-      if (position < 0) {
-         throw new IllegalArgumentException("Position can't be less then 0.");
-      }
-      String ret = null;
-      if (htmlModel == null) {
-         this.abstractParser.start();
-         htmlModel = this.abstractParser.getModel();
-      }
-      final List<String> list = htmlModel.getData();
-      int index = 0;
-      for (String string : list) {
-         if (string.matches(regex)) {
-            if (position == index) {
-               ret = string;
-               break;
-            }
-            index++;
-         }
-      }
-      if (ret == null) {
-         throw new ItemNotFoundException();
-      }
-      return ret;
-   }
-
-   /**
     * Find a file in all attributes of tags contained in HTML page according to given inputs.
     * <p>
     * Methods follow the following pattern: [protocol]://[a text].[extension]. For example http://yourpage.com/image.jpg
@@ -201,35 +107,11 @@ public final class HtmlAttributesMiner {
     * @throws IOException can be thrown when HTML page is fetching
     * @throws ItemNotFoundException when item is not found
     */
-   public File findFile(final String protocol, final String fileExtension) throws ItemNotFoundException, IOException {
+   public File findFile(final String protocol, final String fileExtension) throws IOException {
       // try to find string
       final String foundPath = findString(protocol + "://.+\\." + fileExtension + ".*");
       // when is found, create new file
       final File ret = new File(foundPath);
-      return ret;
-   }
-
-   /**
-    * Find a files in all attributes of tags contained in HTML page according to given inputs.
-    * <p>
-    * Methods follow the following pattern: [protocol]://[a text].[extension]. For example http://yourpage.com/image.jpg
-    * </p>
-    * 
-    * @param protocol e.g. "http"
-    * @param fileExtension e.g. "jpg"
-    * @return a found file
-    * @throws IOException can be thrown when HTML page is fetching
-    * @throws ItemNotFoundException when item is not found
-    */
-   public List<File> findFiles(final String protocol, final String fileExtension) throws ItemNotFoundException,
-         IOException {
-      // try to find strings
-      final List<String> foundPaths = findStrings(protocol + "://.+\\." + fileExtension + ".*");
-      // when are found, create new files
-      final List<File> ret = new ArrayList<File>(foundPaths.size());
-      for (String path : foundPaths) {
-         ret.add(new File(path));
-      }
       return ret;
    }
 
@@ -252,6 +134,115 @@ public final class HtmlAttributesMiner {
       final String foundPath = findString(protocol + "://.+\\." + fileExtension + ".*", position);
       // when are found, create new files
       final File ret = new File(foundPath);
+      return ret;
+   }
+
+   /**
+    * Find a files in all attributes of tags contained in HTML page according to given inputs.
+    * <p>
+    * Methods follow the following pattern: [protocol]://[a text].[extension]. For example http://yourpage.com/image.jpg
+    * </p>
+    * 
+    * @param protocol e.g. "http"
+    * @param fileExtension e.g. "jpg"
+    * @return a found file
+    * @throws IOException can be thrown when HTML page is fetching
+    * @throws ItemNotFoundException when item is not found
+    */
+   public List<File> findFiles(final String protocol, final String fileExtension) throws IOException {
+      // try to find strings
+      final List<String> foundPaths = findStrings(protocol + "://.+\\." + fileExtension + ".*");
+      // when are found, create new files
+      final List<File> ret = new ArrayList<File>(foundPaths.size());
+      for (String path : foundPaths) {
+         ret.add(new File(path));
+      }
+      return ret;
+   }
+
+   /**
+    * Find a string according to regular expression.
+    * 
+    * @param regex regular expression
+    * @return found string
+    * @throws ItemNotFoundException is thrown when item is not found
+    * @throws IOException can be thrown when HTML page is fetching
+    */
+   public String findString(final String regex) throws IOException {
+      if (regex == null || "".equals(regex)) {
+         throw new IllegalArgumentException("Regex can't be empty.");
+      }
+      String ret = null;
+      if (htmlModel == null) {
+         this.abstractParser.start();
+         htmlModel = this.abstractParser.getModel();
+      }
+      List<String> list = htmlModel.getData();
+      for (String string : list) {
+         if (string.matches(regex)) {
+            ret = string;
+            break;
+         }
+      }
+      return ret;
+   }
+
+   /**
+    * Fetch item according to regular expression and and item will be on given position.
+    * 
+    * @param regex regular expression
+    * @param position start from number zero. If you want to fetch fist item, you have to pass to this method number 0.
+    * @return a found item (represented by String)
+    * @throws IOException can be thrown when HTML page is fetching
+    */
+   public String findString(final String regex, final int position) throws IOException {
+      if (regex == null || "".equals(regex)) {
+         throw new IllegalArgumentException("Regex can't be empty.");
+      }
+      if (position < 0) {
+         throw new IllegalArgumentException("Position can't be less then 0.");
+      }
+      String ret = null;
+      if (htmlModel == null) {
+         this.abstractParser.start();
+         htmlModel = this.abstractParser.getModel();
+      }
+      final List<String> list = htmlModel.getData();
+      int index = 0;
+      for (String string : list) {
+         if (string.matches(regex)) {
+            if (position == index) {
+               ret = string;
+               break;
+            }
+            index++;
+         }
+      }
+      return ret;
+   }
+
+   /**
+    * Find all strings according to regular expression.
+    * 
+    * @param regex regular expression
+    * @return collection of found strings or empty collection
+    * @throws IOException can be thrown when HTML page is fetching
+    */
+   public List<String> findStrings(final String regex) throws IOException {
+      if (regex == null || "".equals(regex)) {
+         throw new IllegalArgumentException("Regex can't be empty.");
+      }
+      List<String> ret = new ArrayList<String>();
+      if (htmlModel == null) {
+         this.abstractParser.start();
+         htmlModel = this.abstractParser.getModel();
+      }
+      List<String> list = htmlModel.getData();
+      for (String string : list) {
+         if (string.matches(regex)) {
+            ret.add(string);
+         }
+      }
       return ret;
    }
 }

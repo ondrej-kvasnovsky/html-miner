@@ -36,28 +36,28 @@ public final class CustomClassMapperManager {
    public CustomClassMapperManager(final File configFile) {
       this.configFile = configFile;
       // set XStream aliases - classes
-      xStream.alias("user-class-mapping", CustomClassMapper.class);
+      xStream.alias("user-class-mapping", CustomClassMapping.class);
       xStream.alias("entry-set", EntrySet.class);
       xStream.alias("entry", Entry.class);
       xStream.alias("attribute", Attribute.class);
       // set XStream aliases - attributes
-      xStream.aliasAttribute(CustomClassMapper.class, "userClass", "name");
+      xStream.aliasAttribute(CustomClassMapping.class, "userClass", "name");
       xStream.aliasAttribute(Entry.class, "searchCriteria", "search-criteria");
       xStream.aliasField("html-path", SearchCriteria.class, "htmlPath");
       // usage of attributes for classes
-      xStream.useAttributeFor(CustomClassMapper.class, "userClass");
+      xStream.useAttributeFor(CustomClassMapping.class, "userClass");
       xStream.useAttributeFor(EntrySet.class, "parser");
       // set XStream collections
-      xStream.addImplicitCollection(CustomClassMapper.class, "entrySets");
+      xStream.addImplicitCollection(CustomClassMapping.class, "entrySets");
    }
 
-   public CustomClassMapper loadConfig() throws IOException {
+   public CustomClassMapping loadConfig() throws IOException {
       final FileInputStream fileInputStream = new FileInputStream(this.configFile);
-      CustomClassMapper ret = (CustomClassMapper) xStream.fromXML(fileInputStream);
+      CustomClassMapping ret = (CustomClassMapping) xStream.fromXML(fileInputStream);
       return ret;
    }
 
-   public void saveConfig(final CustomClassMapper customClassMapper) throws IOException {
+   public void saveConfig(final CustomClassMapping customClassMapper) throws IOException {
       String xml = xStream.toXML(customClassMapper);
       FileWriter fileWriter = new FileWriter(this.configFile);
       BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
