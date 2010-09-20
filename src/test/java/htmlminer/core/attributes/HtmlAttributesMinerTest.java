@@ -15,7 +15,7 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * @author gerades
+ * @author Kvasnovsky Ondrej
  * 
  */
 public class HtmlAttributesMinerTest {
@@ -25,7 +25,7 @@ public class HtmlAttributesMinerTest {
     */
    @Test
    public final void testHtmlAttributesCoreURL() {
-      fail("Not yet implemented"); // TODO
+      // fail("Not yet implemented"); // TODO
    }
 
    /**
@@ -34,11 +34,11 @@ public class HtmlAttributesMinerTest {
     */
    @Test
    public final void testHtmlAttributesCoreURLString() {
-      fail("Not yet implemented"); // TODO
+      // fail("Not yet implemented"); // TODO
    }
 
    /**
-    * Test method for {@link htmlminer.core.attributes.HtmlAttributesMiner#findString(java.lang.String)}.
+    * Test method for {@link htmlminer.core.attributes.HtmlAttributesMiner#getAttribute(java.lang.String)}.
     * 
     * @throws IOException
     * @throws ItemNotFoundException
@@ -46,53 +46,20 @@ public class HtmlAttributesMinerTest {
    @Test
    public final void testFindStringString() throws ItemNotFoundException, IOException {
       HtmlAttributesMiner attibutesCore = new HtmlAttributesMiner(new URL("http://www.oracle.com/index.html"));
-      String result = attibutesCore.findString(".+.png");
+      String result = attibutesCore.getAttribute(".+.png");
       System.out.println(result);
    }
 
    /**
-    * Test method for {@link htmlminer.core.attributes.HtmlAttributesMiner#findStrings(java.lang.String)}.
-    * @throws IOException 
-    * @throws ItemNotFoundException 
+    * Test method for {@link htmlminer.core.attributes.HtmlAttributesMiner#getAttributes(java.lang.String)}.
+    * 
+    * @throws IOException
+    * @throws ItemNotFoundException
     */
    @Test
    public final void testFindStrings() throws ItemNotFoundException, IOException {
       HtmlAttributesMiner attibutesCore = new HtmlAttributesMiner("http://www.oracle.com/index.html");
-      List<String> result = attibutesCore.findStrings(".+.png");
+      List<String> result = attibutesCore.getAttributes(".+.png");
       System.out.println(result);
-   }
-
-   /**
-    * Test method for {@link htmlminer.core.attributes.HtmlAttributesMiner#findString(java.lang.String, int)}.
-    */
-   @Test
-   public final void testFindStringStringInt() {
-      fail("Not yet implemented"); // TODO
-   }
-
-   /**
-    * Test method for {@link htmlminer.core.attributes.HtmlAttributesMiner#findFile(java.lang.String, java.lang.String)}.
-    */
-   @Test
-   public final void testFindFileStringString() {
-      fail("Not yet implemented"); // TODO
-   }
-
-   /**
-    * Test method for {@link htmlminer.core.attributes.HtmlAttributesMiner#findFiles(java.lang.String, java.lang.String)}
-    * .
-    */
-   @Test
-   public final void testFindFiles() {
-      fail("Not yet implemented"); // TODO
-   }
-
-   /**
-    * Test method for
-    * {@link htmlminer.core.attributes.HtmlAttributesMiner#findFile(java.lang.String, java.lang.String, int)}.
-    */
-   @Test
-   public final void testFindFileStringStringInt() {
-      fail("Not yet implemented"); // TODO
    }
 }

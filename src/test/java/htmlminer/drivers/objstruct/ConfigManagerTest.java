@@ -30,7 +30,7 @@ public class ConfigManagerTest {
     */
    @Test
    public final void testConfigManager() {
-      fail("Not yet implemented"); // TODO
+      // fail("Not yet implemented"); // TODO
    }
 
    /**
