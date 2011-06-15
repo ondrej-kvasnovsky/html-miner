@@ -6,12 +6,12 @@ package htmlminer.drivers.objstruct;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import htmlminer.core.customclass.MyDataFromPage;
+import htmlminer.core.customclass.criteria.SearchCriteria;
 import htmlminer.core.customclass.mapping.Attribute;
 import htmlminer.core.customclass.mapping.CustomClassMapperManager;
 import htmlminer.core.customclass.mapping.CustomClassMapping;
 import htmlminer.core.customclass.mapping.Entry;
 import htmlminer.core.customclass.mapping.EntrySet;
-import htmlminer.core.customclass.mapping.SearchCriteria;
 import htmlminer.core.customclass.parser.TextParser;
 
 import java.io.File;

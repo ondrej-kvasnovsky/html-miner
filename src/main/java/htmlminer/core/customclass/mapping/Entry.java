@@ -3,6 +3,8 @@
  */
 package htmlminer.core.customclass.mapping;
 
+import htmlminer.core.customclass.criteria.SearchCriteria;
+
 /**
  * 
  * @author Ondrej Kvasnovsky

@@ -3,6 +3,8 @@
  */
 package htmlminer.core.customclass.mapping;
 
+import htmlminer.core.customclass.criteria.SearchCriteria;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;

@@ -14,7 +14,6 @@ import java.net.URL;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
-
 /**
  * Basic HTML parser.
  * 
@@ -22,47 +21,48 @@ import javax.swing.text.html.parser.ParserDelegator;
  */
 public abstract class AbstractParser<T> extends HTMLEditorKit.ParserCallback {
 
-   /**
-    * charset
-    */
-   private final String charset;
-   /**
-    * url
-    */
-   private final URL url;
+    /**
+     * charset
+     */
+    private final String charset;
+    /**
+     * url
+     */
+    private final URL url;
 
-   /**
-    * 
-    * @param url
-    * @param charset
-    */
-   public AbstractParser(final URL url, final String charset) {
-      this.url = url;
-      this.charset = charset;
-   }
+    /**
+     * 
+     * @param url
+     * @param charset
+     */
+    public AbstractParser(final URL url, final String charset) {
+        this.url = url;
+        this.charset = charset;
+    }
 
-   /**
+    /**
     * 
     */
-   public abstract HtmlModel<T> getModel();
+    public abstract HtmlModel<T> getModel();
 
-   /**
-    * 
-    * @param htmlText
-    * @throws IOException vytvori novy ParserDelegator a vola metodu pro parsovani
-    */
-   public void parse(final Reader htmlText) throws IOException {
-      ParserDelegator delegator = new ParserDelegator();
-      delegator.parse(htmlText, this, true);
-   }
+    /**
+     * 
+     * @param htmlText
+     * @throws IOException
+     *             vytvori novy ParserDelegator a vola metodu pro parsovani
+     */
+    public void parse(final Reader htmlText) throws IOException {
+        ParserDelegator delegator = new ParserDelegator();
+        delegator.parse(htmlText, this, true);
+    }
 
-   /**
-    * Starts parsing process.
-    * 
-    * @throws IOException
-    */
-   public void start() throws IOException {
-      BufferedReader htmlPage = new BufferedReader(new InputStreamReader(this.url.openStream(), this.charset));
-      this.parse(htmlPage);
-   }
+    /**
+     * Starts parsing process.
+     * 
+     * @throws IOException
+     */
+    public void start() throws IOException {
+        BufferedReader htmlPage = new BufferedReader(new InputStreamReader(this.url.openStream(), this.charset));
+        this.parse(htmlPage);
+    }
 }
