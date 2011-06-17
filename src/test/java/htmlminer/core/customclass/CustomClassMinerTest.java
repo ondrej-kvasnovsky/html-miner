@@ -3,13 +3,13 @@
  */
 package htmlminer.core.customclass;
 
-import static org.junit.Assert.*;
-
-import htmlminer.core.customclass.criteria.SearchCriteria;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import htmlminer.core.customclass.mapping.Attribute;
 import htmlminer.core.customclass.mapping.CustomClassMapping;
 import htmlminer.core.customclass.mapping.Entry;
 import htmlminer.core.customclass.mapping.EntrySet;
+import htmlminer.core.customclass.mapping.SearchCriteria;
 
 import org.junit.Test;
 

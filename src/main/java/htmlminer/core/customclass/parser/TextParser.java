@@ -3,9 +3,9 @@
  */
 package htmlminer.core.customclass.parser;
 
-import htmlminer.core.customclass.criteria.SearchCriteria;
 import htmlminer.core.customclass.mapping.Attribute;
 import htmlminer.core.customclass.mapping.Entry;
+import htmlminer.core.customclass.mapping.SearchCriteria;
 
 import java.net.URL;
 import java.util.Enumeration;
