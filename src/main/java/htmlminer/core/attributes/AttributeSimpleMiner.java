@@ -19,7 +19,7 @@ import java.util.List;
  * 
  * @author Ondrej Kvasnovsky
  */
-final class AttributeSimpleMiner {
+class AttributeSimpleMiner {
 
     /**
      * HTML file parser

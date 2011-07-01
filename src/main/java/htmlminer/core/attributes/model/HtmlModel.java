@@ -4,7 +4,7 @@
 package htmlminer.core.attributes.model;
 
 /**
- * Basic html mode.
+ * Basic HTML mode. {@link HtmlModel} is used to store values from a HTML file.
  * 
  * @author Ondrej Kvasnovsky
  */

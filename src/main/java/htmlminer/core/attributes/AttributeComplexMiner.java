@@ -30,7 +30,7 @@ import java.util.List;
  * 
  * @author Ondrej Kvasnovsky
  */
-final class AttributeComplexMiner {
+class AttributeComplexMiner {
 
     /**
      * abstract parser

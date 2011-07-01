@@ -12,6 +12,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 /**
  * Test for {@link AttributeMiner}.
@@ -19,7 +23,23 @@ import org.junit.Test;
  * @author Kvasnovsky Ondrej
  */
 public class AttributeMinerTest {
+    /**
+     * attributeComplexMiner
+     */
+    @Mock
+    private AttributeComplexMiner attributeComplexMiner;
+    /**
+     * attributeSimpleMiner
+     */
+    @Mock
+    private AttributeSimpleMiner attributeSimpleMiner;
+    /**
+     * attributeMiner
+     */
     private AttributeMiner attributeMiner;
+    /**
+     * urlAddress
+     */
     private URL urlAddress;
 
     /**
@@ -30,8 +50,11 @@ public class AttributeMinerTest {
      */
     @Before
     public final void setUp() throws MalformedURLException {
+        MockitoAnnotations.initMocks(this);
         this.urlAddress = this.getClass().getResource("employee.html");
         this.attributeMiner = new AttributeMiner(urlAddress);
+        this.attributeMiner.setAttributeComplexMiner(attributeComplexMiner);
+        this.attributeMiner.setAttributeSimpleMiner(attributeSimpleMiner);
     }
 
     /**
@@ -39,10 +62,10 @@ public class AttributeMinerTest {
      * {@link htmlminer.core.attributes.AttributeMiner#AttributeMiner(java.lang.String)}
      * .
      * 
-     * @throws MalformedURLException
+     * @throws IOException
      */
     @Test
-    public void testAttributeMinerString() throws MalformedURLException {
+    public void testAttributeMinerString() throws IOException {
         AttributeMiner attributeMiner = new AttributeMiner(urlAddress.toString());
         assertNotNull(attributeMiner);
     }
@@ -80,8 +103,8 @@ public class AttributeMinerTest {
      */
     @Test
     public void testGetAttributeString() throws IOException {
-        String attribute = this.attributeMiner.getAttribute(".*");
-        assertNotNull(attribute);
+        this.attributeMiner.getAttribute(".*");
+        Mockito.verify(this.attributeSimpleMiner).getAttribute(".*");
     }
 
     /**
@@ -93,8 +116,8 @@ public class AttributeMinerTest {
      */
     @Test
     public void testGetAttributeStringStringString() throws IOException {
-        String attribute = this.attributeMiner.getAttribute("html body div", "id", ".*");
-        assertNotNull(attribute);
+        this.attributeMiner.getAttribute("html body div", "id", ".*");
+        Mockito.verify(this.attributeComplexMiner).getAttribute("html body div", "id", ".*");
     }
 
     /**
@@ -106,8 +129,8 @@ public class AttributeMinerTest {
      */
     @Test
     public void testGetAttributesString() throws IOException {
-        List<String> attributes = this.attributeMiner.getAttributes(".*");
-        assertNotNull(attributes);
+        this.attributeMiner.getAttributes(".*");
+        Mockito.verify(this.attributeSimpleMiner).getAttributes(".*");
     }
 
     /**
@@ -119,8 +142,8 @@ public class AttributeMinerTest {
      */
     @Test
     public void testGetAttributesStringStringString() throws IOException {
-        List<String> attributes = this.attributeMiner.getAttributes("html body div", "id", ".*");
-        assertNotNull(attributes);
+        this.attributeMiner.getAttributes("html body div", "id", ".*");
+        Mockito.verify(this.attributeComplexMiner).getAttributes("html body div", "id", ".*");
     }
 
 }

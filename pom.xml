@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.html-miner</groupId>
 	<artifactId>html-miner</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.1.2-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -20,6 +20,11 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.8.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.dspace.dependencies.jmockit</groupId>
+			<artifactId>dspace-jmockit</artifactId>
+			<version>0.999.4</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -133,4 +133,24 @@ public final class AttributeMiner {
         return this.attributeComplexMiner.getAttributes(path, attributeName, regex);
     }
 
+    /**
+     * Sets the attributeComplexMiner.
+     * 
+     * @param attributeComplexMiner
+     *            the attributeComplexMiner to set
+     */
+    void setAttributeComplexMiner(AttributeComplexMiner attributeComplexMiner) {
+        this.attributeComplexMiner = attributeComplexMiner;
+    }
+
+    /**
+     * Sets the attributeSimpleMiner.
+     * 
+     * @param attributeSimpleMiner
+     *            the attributeSimpleMiner to set
+     */
+    void setAttributeSimpleMiner(AttributeSimpleMiner attributeSimpleMiner) {
+        this.attributeSimpleMiner = attributeSimpleMiner;
+    }
+
 }
