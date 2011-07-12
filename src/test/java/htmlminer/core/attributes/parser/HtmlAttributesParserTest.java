@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -56,7 +58,7 @@ public class HtmlAttributesParserTest {
      */
     @Test
     public void testGetModel() {
-        fail("Not yet implemented");
+		Assert.assertNotNull(parser.getModel());
     }
 
     /**
